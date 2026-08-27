@@ -609,14 +609,168 @@ function createIssueCard(issue) {
 
     `;
 
+    // CARD CLICK
+    card.addEventListener("click", () => {
 
+        loadIssueDetails(issue.id);
 
-    
+    });
 
 
     return card;
 
 }
+
+
+
+async function loadIssueDetails(issueId) {
+
+    // Show modal
+        issueModal.classList.remove("hidden");
+
+    
+    // Hide modal content
+        modalTitle.classList.add("hidden");
+        modalMeta.classList.add("hidden");
+        modalLabels.classList.add("hidden");
+        modalInformation.classList.add("hidden");
+        modalDescription.classList.add("hidden");
+
+    // Show modal spinner
+        modalLoadingSpinner.classList.remove("hidden");
+        modalLoadingSpinner.classList.add("flex"); 
+
+
+    try {
+
+        const url = `${SINGLE_ISSUE_API}/${issueId}`;
+
+        const response = await fetch(url);
+
+        if (!response.ok) {
+
+        throw new Error("Failed to load issue details");
+    }
+
+
+    const data = await response.json();
+
+    const issueData = data.data;
+
+
+
+    // Show modal content
+        modalTitle.classList.remove("hidden");
+        modalMeta.classList.remove("hidden");
+        modalLabels.classList.remove("hidden");
+        modalInformation.classList.remove("hidden");
+        modalDescription.classList.remove("hidden");
+
+
+    modalTitle.innerText = issueData.title;
+
+
+    modalStatus.classList.remove(
+        "bg-[#00A96E]",
+        "bg-purple-500"
+    );
+
+
+    if (issueData.status === "open") {
+
+        modalStatus.innerText = "Opened";
+
+        modalStatus.classList.add("bg-[#00A96E]");
+
+    } else {
+
+        modalStatus.innerText = "Closed";
+
+        modalStatus.classList.add("bg-purple-500");
+
+    }
+
+
+    modalAuthor.innerText = issueData.author;
+
+    modalDate.innerText =
+        formatDate(issueData.createdAt);
+
+    modalDescription.innerText =
+        issueData.description;
+
+        modalAssignee.innerText =
+        issueData.assignee || "Unassigned";
+
+        modalPriority.innerText =
+        issueData.priority;
+
+
+        modalLabels.innerHTML =
+            (issueData.labels || [])
+            .map(label => `
+                <span
+                        
+                class="inline-flex gap-1 items-center rounded-full px-2 py-1 text-xs font-medium      
+                ${getLabelStyle(label)}"
+                >
+
+                ${getLabelIcon(label)}
+
+                    ${label}
+
+                </span>
+
+            `)
+            .join("");
+
+
+        } catch (error) {
+
+            console.log(error);
+
+            // Show error card
+            modalTitle.classList.remove("hidden");
+            modalDescription.classList.remove("hidden");
+
+            modalTitle.innerText = "Something went wrong";
+
+            modalDescription.innerHTML = `
+
+            <div class="flex min-h-[280px] flex-col items-center justify-center text-center">
+
+                <div class="grid size-16 place-items-center rounded-full bg-red-50">
+                    <i class="fa-solid fa-triangle-exclamation text-2xl text-red-500"></i>
+               </div>
+
+                <h3 class="mt-3 font-bold text-slate-700">
+                    Failed to load issue details
+                </h3>
+
+                <p class="mt-1 text-sm text-slate-400">
+                    Please try again.
+                </p>
+
+                <button
+                    onclick="loadIssueDetails(${issueId})"
+                    class="mt-4 rounded-md bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800">
+                    Try Again
+                </button>
+
+            </div>
+            `;
+
+
+    } finally {
+
+    // Hide modal spinner
+        modalLoadingSpinner.classList.add("hidden");
+        modalLoadingSpinner.classList.remove("flex");
+    }
+}
+
+
+
 
 
 
