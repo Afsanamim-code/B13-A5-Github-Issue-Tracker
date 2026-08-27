@@ -84,6 +84,31 @@ const modalLoadingSpinner =
 
 
 
+
+
+// MODAL CLOSE
+closeModalButton.addEventListener("click", () => {
+    issueModal.classList.add("hidden");
+});
+
+modalCloseAction.addEventListener("click", () => {
+    issueModal.classList.add("hidden");
+});
+
+
+// CLOSE MODAL ON BACKDROP CLICK
+issueModal.addEventListener("click", (event) => {
+
+    if (event.target === issueModal) {
+        issueModal.classList.add("hidden");
+    }
+
+});
+
+
+
+
+
 // APPLICATION STATE
 let allIssues = [];
 
