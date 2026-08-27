@@ -234,7 +234,6 @@ async function searchIssues() {
 
 }  catch (error) {
 
-    console.log(error);
 
     currentSearchResults = [];
 
@@ -463,7 +462,6 @@ async function loadIssues() {
 
 
     } catch (error) {
-        console.log(error);
 
         hasApiError = true;
 
@@ -752,7 +750,6 @@ async function loadIssueDetails(issueId) {
 
         } catch (error) {
 
-            console.log(error);
 
             // Show error card
             modalTitle.classList.remove("hidden");
