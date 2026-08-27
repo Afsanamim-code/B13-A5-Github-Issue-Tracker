@@ -265,6 +265,35 @@ function showSearchErrorState() {
 }
 
 
+// RESET TO ALL ISSUES WHEN SEARCH IS CLEARED
+searchInput.addEventListener("input", () => {
+
+    const searchText = searchInput.value.trim();
+
+    if (searchText === "") {
+
+        currentSearch = "";
+
+        currentSearchResults = [];
+
+        hasSearchError = false;
+
+        currentFilter = "all";
+
+        setActiveTab(allTab);
+
+        applyFilter();
+
+
+    }
+
+});
+
+
+
+
+
+
 
 
 function showErrorState() {
