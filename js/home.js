@@ -82,3 +82,55 @@ const modalPriority =
 const modalLoadingSpinner =
     document.getElementById("modalLoadingSpinner");    
 
+
+
+
+
+
+
+// TAB ACTIVE STATE
+function setActiveTab(activeTab) {
+
+    allTab.classList.remove("bg-blue-700", "text-white");
+
+    openTab.classList.remove("bg-blue-700", "text-white");
+
+    closedTab.classList.remove("bg-blue-700", "text-white");
+
+    activeTab.classList.add("bg-blue-700", "text-white");
+}
+
+
+// TAB CLICK EVENTS
+allTab.addEventListener("click", () => {
+
+
+    setActiveTab(allTab);
+
+    
+
+});
+
+
+openTab.addEventListener("click", () => {
+
+
+    setActiveTab(openTab);
+
+
+});
+
+
+closedTab.addEventListener("click", () => {
+
+
+    setActiveTab(closedTab);
+
+
+});
+
+
+// Default active tab
+setActiveTab(allTab);
+
+
